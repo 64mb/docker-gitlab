@@ -1,0 +1,25 @@
+version: "3.4"
+
+services:
+  gitlab:
+    # specify gitlab version 
+    image: 'gitlab/gitlab-ce:14.9.3-ce.0'
+    restart: always
+    hostname: 'docker.mb'
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'http://docker.mb:8929'
+        gitlab_rails['gitlab_shell_ssh_port'] = 2224
+    ports:
+      - '8929:8929'
+      - '2224:22'
+    volumes:
+      - ./backups:/backups
+      - gitlab_config:/etc/gitlab
+      - gitlab_data:/var/opt/gitlab
+      - gitlab_logs:/var/log/gitlab
+
+volumes:
+  gitlab_data:
+  gitlab_logs:
+  gitlab_config:
